@@ -29,7 +29,6 @@ namespace Detect_msg_process
                 {
                     Console.WriteLine(stopwatch.ElapsedMilliseconds.ToString());
                     Console.Write(". ");
-                
                 }
                 
                 if (process != null)
