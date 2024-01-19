@@ -7,10 +7,8 @@ namespace Detect_msg_process
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("._._._._._._._x64._._._._._._._._._");
-
             string name = "msg";
-
+            Console.WriteLine("._._._._._._._x86._._._._._._._._._");
             //UseProcessClass_GetProcessesByName(name);
 
 
@@ -19,8 +17,7 @@ namespace Detect_msg_process
             UseManagementEventWatcher(name);
 
             Console.ReadKey();
-
-            Console.WriteLine("._._._._._._._x64._._._._._._._._._");
+            Console.WriteLine("._._._._._._._x86._._._._._._._._._");
         }
 
         private static void UseProcessClass_GetProcessesByName(string name)
@@ -36,6 +33,7 @@ namespace Detect_msg_process
 
                 if (process != null)
                 {
+
                     Console.WriteLine("msg.exe is running.");
                     Process[] prcs = Process.GetProcessesByName(name);
 
@@ -71,15 +69,13 @@ namespace Detect_msg_process
         {
             string queryString =
                 $"SELECT TargetInstance " +
-                $"FROM  __InstanceDeletionEvent " +
+                $"FROM __InstanceCreationEvent " +
                 $"WITHIN 1 " +
                 $"WHERE TargetInstance ISA 'Win32_Process' AND TargetInstance.Name LIKE '%{processName}%'";
-
             Console.WriteLine("2");
             string scope = @"\\.\root\CIMV2";
 
             ManagementEventWatcher watcher = new ManagementEventWatcher(scope, queryString);
-
             watcher.EventArrived += new EventArrivedEventHandler(ProcessCreated);
 
             try
@@ -92,6 +88,7 @@ namespace Detect_msg_process
                     watcher.Stop();
                     watcher.Dispose();
                 }
+
             }
             catch (Exception e)
             {
@@ -102,7 +99,7 @@ namespace Detect_msg_process
         }
         private static void ProcessCreated(object sender, EventArrivedEventArgs e)
         {
-            Console.WriteLine("ManagementEventWatcher ");
+            Console.WriteLine("ManagementEventWatcher");
         }
     }
 }
